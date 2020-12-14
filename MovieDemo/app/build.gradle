@@ -18,6 +18,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "version"
+    productFlavors {
+        prod {
+            dimension "version"
+            applicationIdSuffix ".prod"
+            buildConfigField("String", "BASE_URL", "https://api.themoviedb.org/")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
