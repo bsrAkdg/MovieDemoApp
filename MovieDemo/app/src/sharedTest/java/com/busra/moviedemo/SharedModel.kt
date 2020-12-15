@@ -22,6 +22,14 @@ object SharedModel {
         4.0
     )
 
+    val cacheMovie2 = MovieCacheEntity(
+        2,
+        "Second Movie",
+        "Second movie overview",
+        "path2",
+        3.0
+    )
+
     val callMovie = MovieCallEntity(
         id = 1,
         title = "First Movie",

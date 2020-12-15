@@ -1,6 +1,11 @@
 package com.busra.moviedemo.data.local
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "movie_db")
 data class MovieCacheEntity(
+    @PrimaryKey
     val id: Int,
     val title: String,
     val overview: String,
