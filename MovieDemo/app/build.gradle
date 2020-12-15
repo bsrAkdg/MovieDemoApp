@@ -24,7 +24,7 @@ android {
         prod {
             dimension "version"
             applicationIdSuffix ".prod"
-            buildConfigField("String", "BASE_URL", "https://api.themoviedb.org/")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
         }
     }
     buildTypes {
@@ -40,6 +40,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTest/java"
+        }
+        test {
+            java.srcDirs += "src/sharedTest/java"
+        }
+    }
 }
 
 dependencies {
@@ -54,7 +62,11 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
+    // Local test
+    testImplementation "com.google.truth:truth:1.0.1"
     testImplementation 'junit:junit:4.13.1'
+
+    // Instrumented test
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 

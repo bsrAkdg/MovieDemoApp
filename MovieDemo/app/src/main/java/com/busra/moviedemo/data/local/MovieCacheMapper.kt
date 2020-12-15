@@ -20,4 +20,6 @@ class MovieCacheMapper : EntityMapper<MovieCacheEntity, Movie> {
         poster_path = domainModel.poster_path,
         vote_average = domainModel.vote_average
     )
+
+
 }

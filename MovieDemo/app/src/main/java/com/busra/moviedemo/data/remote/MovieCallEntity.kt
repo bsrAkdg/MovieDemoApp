@@ -15,4 +15,11 @@ data class MovieCallEntity(
     val video: Boolean? = null,
     val vote_average: Double? = null,
     val vote_count: Int? = null
-)
+) {
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as MovieCallEntity).id
+                && title == other.title
+                && overview == other.overview
+    }
+}
