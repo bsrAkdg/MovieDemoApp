@@ -35,4 +35,13 @@ object AppModule {
         database: MovieDatabase
     ) = database.movieDao()
 
+    @Singleton
+    @Provides
+    fun provideMovieApi(): MovieApi =
+        Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.BASE_URL)
+            .build()
+            .create(MovieApi::class.java)
+
 }
