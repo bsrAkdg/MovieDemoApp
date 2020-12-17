@@ -1,11 +1,10 @@
 package com.busra.moviedemo.db
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.busra.moviedemo.SharedModel
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -13,30 +12,31 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Named
 import kotlin.jvm.Throws
 
 @ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class MovieDaoTest {
-
-    private lateinit var movieDatabase: MovieDatabase
-    private lateinit var movieDao: MovieDao
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Before
-    fun createDb() {
-        movieDatabase = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            MovieDatabase::class.java
-        )
-            .allowMainThreadQueries()
-            .build()
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
-        movieDao = movieDatabase.movieDao()
+    @Inject
+    @Named("movie_db")
+    lateinit var database: MovieDatabase
+
+    private lateinit var movieDao : MovieDao
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        movieDao = database.movieDao()
     }
 
     @Test
@@ -64,7 +64,7 @@ class MovieDaoTest {
     @After
     @Throws(IOException::class)
     fun closeDb() {
-        movieDatabase.close()
+        database.close()
     }
 
 }
