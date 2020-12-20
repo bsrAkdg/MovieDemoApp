@@ -1,25 +1,15 @@
 package com.busra.moviedemo.data.remote
 
-import com.busra.moviedemo.data.local.MovieCacheEntity
-import com.busra.moviedemo.util.EntityMapper
+import com.busra.moviedemo.data.Movie
+import com.busra.moviedemo.util.FromEntityMapper
 
-class MovieCallMapper : EntityMapper<MovieCallEntity, MovieCacheEntity> {
+class MovieCallMapper : FromEntityMapper<MovieCallEntity, Movie> {
 
-    override fun mapFromEntity(entityModel: MovieCallEntity): MovieCacheEntity = MovieCacheEntity(
-        entityModel.id,
-        entityModel.title,
-        entityModel.overview,
-        entityModel.poster_path,
-        entityModel.vote_average
+    override fun mapFromEntity(entityModel: MovieCallEntity): Movie = Movie(
+        id = entityModel.id,
+        title = entityModel.title,
+        overview = entityModel.overview,
+        poster_path = entityModel.poster_path,
+        vote_average = entityModel.vote_average
     )
-
-    // FIXME: 12/15/20 : unnecessary implementation
-    override fun mapToEntity(domainModel: MovieCacheEntity): MovieCallEntity = MovieCallEntity(
-        id = domainModel.id,
-        overview = domainModel.overview,
-        poster_path = domainModel.poster_path,
-        title = domainModel.title,
-        vote_average = domainModel.vote_average
-    )
-
 }

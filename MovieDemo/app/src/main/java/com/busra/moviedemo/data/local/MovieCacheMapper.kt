@@ -21,5 +21,4 @@ class MovieCacheMapper : EntityMapper<MovieCacheEntity, Movie> {
         vote_average = domainModel.vote_average
     )
 
-
 }

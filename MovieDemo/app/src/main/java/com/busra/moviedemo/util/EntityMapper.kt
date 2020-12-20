@@ -10,8 +10,12 @@ package com.busra.moviedemo.util
  *
  * https://buffer.com/resources/even-map-though-data-model-mapping-android-apps/
  *
+ * INTERFACE SEGREGATION !!
  * */
-interface EntityMapper<Entity, ProjectModel> {
-    fun mapFromEntity(entityModel: Entity) : ProjectModel
-    fun mapToEntity(domainModel: ProjectModel) : Entity
+interface EntityMapper<Entity, ProjectModel> : FromEntityMapper<Entity, ProjectModel> {
+    fun mapToEntity(domainModel: ProjectModel): Entity
+}
+
+interface FromEntityMapper<Entity, ProjectModel> {
+    fun mapFromEntity(entityModel: Entity): ProjectModel
 }
