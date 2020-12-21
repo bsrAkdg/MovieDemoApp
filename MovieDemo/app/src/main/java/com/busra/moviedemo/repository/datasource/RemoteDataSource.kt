@@ -1,4 +1,4 @@
-package com.busra.moviedemo.repository
+package com.busra.moviedemo.repository.datasource
 
 import com.busra.moviedemo.data.remote.MovieApi
 import com.busra.moviedemo.data.remote.MovieCallEntity

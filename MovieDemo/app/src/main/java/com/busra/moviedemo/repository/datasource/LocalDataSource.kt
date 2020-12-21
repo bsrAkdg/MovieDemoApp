@@ -1,4 +1,4 @@
-package com.busra.moviedemo.repository
+package com.busra.moviedemo.repository.datasource
 
 import com.busra.moviedemo.data.local.MovieCacheEntity
 import com.busra.moviedemo.db.MovieDao
