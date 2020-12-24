@@ -2,8 +2,11 @@ package com.busra.moviedemo.data.remote
 
 import com.busra.moviedemo.data.Movie
 import com.busra.moviedemo.util.FromEntityMapper
+import javax.inject.Inject
 
-class MovieCallMapper : FromEntityMapper<MovieCallEntity, Movie> {
+class MovieCallMapper
+@Inject constructor(
+): FromEntityMapper<MovieCallEntity, Movie> {
 
     override fun mapFromEntity(entityModel: MovieCallEntity): Movie = Movie(
         id = entityModel.id,

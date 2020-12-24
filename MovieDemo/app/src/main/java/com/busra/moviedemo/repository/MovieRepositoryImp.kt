@@ -19,12 +19,14 @@ constructor(
     private val callMapper: MovieCallMapper
 ) : MovieRepository {
 
-    override suspend fun insertMovie(movie: Movie) {
-        localDataSource.insertMovie(cacheMapper.mapToEntity(movie))
+    override suspend fun insertMovies(movies: List<Movie>) {
+        movies.map { movie ->
+            localDataSource.insertMovie(cacheMapper.mapToEntity(movie))
+        }
     }
 
     override fun getAllMovies(page: Int): Flow<Resource<List<Movie>>> = flow {
-        emit(Resource.loading(null))
+        emit(Resource.loading())
         val response = remoteDataSource.getAllMovies(page = page)
         if (response.isSuccessful) {
             response.body()?.let { popularMovieResponse ->
@@ -32,6 +34,7 @@ constructor(
                     val movies = popularMovieResponse.results.map { callMovie ->
                         callMapper.mapFromEntity(callMovie)
                     }
+                    insertMovies(movies)
                     emit(Resource.success(movies))
                 } else {
                     getAllMoviesDb(page = page)
@@ -56,7 +59,7 @@ constructor(
     }
 
     override fun getMovieDetail(id: Int): Flow<Resource<Movie>> = flow {
-        emit(Resource.loading(null))
+        emit(Resource.loading())
         val response = remoteDataSource.getMovieDetail(id)
         if (response.isSuccessful) {
             response.body()?.let { callMovie ->

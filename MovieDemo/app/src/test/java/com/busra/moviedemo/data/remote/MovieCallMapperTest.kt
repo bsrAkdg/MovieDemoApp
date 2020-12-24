@@ -15,11 +15,4 @@ class MovieCallMapperTest {
         Truth.assertThat(mappedMovie).isEqualTo(SharedModel.cacheMovie)
     }
 
-    @Test
-    fun `map to entity success`() {
-        val cacheMovie = SharedModel.cacheMovie
-        val mappedMovie = movieCallMapper.mapToEntity(cacheMovie)
-        Truth.assertThat(mappedMovie).isEqualTo(SharedModel.callMovie)
-    }
-
 }

@@ -3,8 +3,15 @@ package com.busra.moviedemo.di
 import android.content.Context
 import androidx.room.Room
 import com.busra.moviedemo.BuildConfig
+import com.busra.moviedemo.data.local.MovieCacheMapper
 import com.busra.moviedemo.data.remote.MovieApi
+import com.busra.moviedemo.data.remote.MovieCallMapper
+import com.busra.moviedemo.db.MovieDao
 import com.busra.moviedemo.db.MovieDatabase
+import com.busra.moviedemo.repository.MovieRepository
+import com.busra.moviedemo.repository.MovieRepositoryImp
+import com.busra.moviedemo.repository.datasource.LocalDataSource
+import com.busra.moviedemo.repository.datasource.RemoteDataSource
 import com.busra.moviedemo.util.Constant
 import com.busra.moviedemo.util.Constant.DATABASE_NAME
 import com.busra.moviedemo.util.NoConnectionInterceptor
@@ -94,4 +101,14 @@ object AppModule {
             .build()
             .create(MovieApi::class.java)
 
+    @Singleton
+    @Provides
+    fun provideMovieRepository(
+        localDataSource: LocalDataSource,
+        remoteDataSource: RemoteDataSource,
+        cacheMapper: MovieCacheMapper,
+        callMapper: MovieCallMapper
+    ) : MovieRepository = MovieRepositoryImp(
+        localDataSource, remoteDataSource, cacheMapper, callMapper
+    )
 }

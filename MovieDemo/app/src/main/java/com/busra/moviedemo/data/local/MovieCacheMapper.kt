@@ -2,8 +2,12 @@ package com.busra.moviedemo.data.local
 
 import com.busra.moviedemo.data.Movie
 import com.busra.moviedemo.util.EntityMapper
+import javax.inject.Inject
 
-class MovieCacheMapper : EntityMapper<MovieCacheEntity, Movie> {
+class MovieCacheMapper
+@Inject
+constructor(
+): EntityMapper<MovieCacheEntity, Movie> {
 
     override fun mapFromEntity(entityModel: MovieCacheEntity): Movie = Movie(
         id = entityModel.id,

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.4.21"
-    ext.roomVersion = "2.2.5"
+    ext.roomVersion = "2.2.6"
     ext.hiltVersion = "2.30.1-alpha"
     ext.hiltOtherVersion = "1.0.0-alpha02"
     ext.viewModelVersion = "2.2.0"
