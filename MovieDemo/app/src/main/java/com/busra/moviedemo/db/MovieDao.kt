@@ -14,8 +14,8 @@ interface MovieDao{
     suspend fun insertMovie(movie: MovieCacheEntity)
 
     @Query("SELECT * FROM movie_db")
-    fun getAllMovies() : Flow<List<MovieCacheEntity>>
+    fun getAllMovies() : Flow<List<MovieCacheEntity>?>
 
     @Query("SELECT * FROM movie_db WHERE id = :id")
-    fun getMovieDetail(id: Int) : Flow<MovieCacheEntity>
+    fun getMovieDetail(id: Int) : Flow<MovieCacheEntity?>
 }

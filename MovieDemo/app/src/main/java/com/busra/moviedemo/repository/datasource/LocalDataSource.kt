@@ -12,7 +12,7 @@ constructor(
 ) {
     suspend fun insertMovie(movieCacheEntity: MovieCacheEntity) = movieDao.insertMovie(movie = movieCacheEntity)
 
-    fun getAllMovies(page: Int): Flow<List<MovieCacheEntity>> = movieDao.getAllMovies()
+    fun getAllMovies(page: Int): Flow<List<MovieCacheEntity>?> = movieDao.getAllMovies()
 
-    fun getMovieDetail(id: Int): Flow<MovieCacheEntity> = movieDao.getMovieDetail(id)
+    fun getMovieDetail(id: Int): Flow<MovieCacheEntity?> = movieDao.getMovieDetail(id)
 }

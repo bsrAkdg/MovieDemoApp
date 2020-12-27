@@ -25,55 +25,63 @@ constructor(
         }
     }
 
-    override fun getAllMovies(page: Int): Flow<Resource<List<Movie>>> = flow {
+    override fun getAllMovies(page: Int): Flow<Resource<List<Movie>?>> = flow {
         emit(Resource.loading())
         val response = remoteDataSource.getAllMovies(page = page)
         if (response.isSuccessful) {
             response.body()?.let { popularMovieResponse ->
-                if (!popularMovieResponse.results.isNullOrEmpty()) {
-                    val movies = popularMovieResponse.results.map { callMovie ->
+                popularMovieResponse.results?.let { results ->
+                    val movies = results.map { callMovie ->
                         callMapper.mapFromEntity(callMovie)
                     }
                     insertMovies(movies)
                     emit(Resource.success(movies))
-                } else {
-                    getAllMoviesDb(page = page)
+                } ?: getAllMoviesDb(page = page).collect {
+                    emit(it)
                 }
-            } ?: getAllMoviesDb(page = page)
+            } ?: getAllMoviesDb(page = page).collect {
+                emit(it)
+            }
         } else {
-            getAllMoviesDb(page = page)
+            getAllMoviesDb(page = page).collect {
+                emit(it)
+            }
         }
     }
 
     override fun getAllMoviesDb(page: Int) = flow {
         localDataSource.getAllMovies(page).collect { cacheMovies ->
-            val movies = cacheMovies.map { cacheMovie ->
-                cacheMapper.mapFromEntity(cacheMovie)
-            }
-            if (movies.isNullOrEmpty()) {
-                emit(Resource.error(Constant.MOVIES_NOT_FOUND, null))
-            } else {
+            cacheMovies?.let { cacheList ->
+                val movies = cacheList.map { cacheMovie ->
+                    cacheMapper.mapFromEntity(cacheMovie)
+                }
                 emit(Resource.success(movies))
-            }
+            } ?: emit(Resource.error(Constant.MOVIES_NOT_FOUND, null))
         }
     }
 
-    override fun getMovieDetail(id: Int): Flow<Resource<Movie>> = flow {
+    override fun getMovieDetail(id: Int): Flow<Resource<Movie?>> = flow {
         emit(Resource.loading())
         val response = remoteDataSource.getMovieDetail(id)
         if (response.isSuccessful) {
             response.body()?.let { callMovie ->
                 emit(Resource.success(callMapper.mapFromEntity(callMovie)))
-            } ?: getMovieDetailDb(id)
+            } ?: getMovieDetailDb(id).collect {
+                emit(it)
+            }
         } else {
-            getMovieDetailDb(id)
+            getMovieDetailDb(id).collect {
+                emit(it)
+            }
         }
     }
 
-    override fun getMovieDetailDb(id: Int): Flow<Resource<Movie>> = flow {
+    override fun getMovieDetailDb(id: Int): Flow<Resource<Movie?>> = flow {
         localDataSource.getMovieDetail(id).collect { cacheMovie ->
-            val movie = cacheMapper.mapFromEntity(cacheMovie)
-            emit(Resource.success(movie))
+            cacheMovie?.let {
+                val movie = cacheMapper.mapFromEntity(cacheMovie)
+                emit(Resource.success(movie))
+            } ?: emit(Resource.error(Constant.MOVIE_DETAIL_NOT_FOUND, null))
         }
     }
 
