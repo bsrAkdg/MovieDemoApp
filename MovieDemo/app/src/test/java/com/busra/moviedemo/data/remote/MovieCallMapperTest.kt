@@ -1,7 +1,7 @@
 package com.busra.moviedemo.data.remote
 
 import com.busra.moviedemo.SharedModel
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class MovieCallMapperTest {
@@ -12,7 +12,7 @@ class MovieCallMapperTest {
     fun `map from entity success`() {
         val callMovie = SharedModel.callMovie
         val mappedMovie = movieCallMapper.mapFromEntity(callMovie)
-        Truth.assertThat(mappedMovie).isEqualTo(SharedModel.cacheMovie)
+        assertThat(mappedMovie).isEqualTo(SharedModel.movie)
     }
 
 }
