@@ -8,15 +8,22 @@
         <variable
             name="movie"
             type="com.busra.moviedemo.data.Movie" />
+
+        <variable
+            name="listener"
+            type="com.busra.moviedemo.ui.OnItemClickListener" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:onClick="@{() -> listener.onItemClick(movie)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/space_10"
         app:cardElevation="@dimen/space_5">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parent"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:padding="@dimen/space_10">

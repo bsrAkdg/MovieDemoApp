@@ -1,6 +1,7 @@
 package com.busra.moviedemo.ui
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,7 +20,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMovieDetailBinding.bind(view)
+        binding = FragmentMovieDetailBinding.bind(view).apply {
+            overview.movementMethod = ScrollingMovementMethod()
+        }
         subscribeObserver()
         viewModel.getAllMovieDetail(args.movieId)
     }

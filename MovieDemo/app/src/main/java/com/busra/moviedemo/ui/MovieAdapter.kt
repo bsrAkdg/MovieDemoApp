@@ -15,20 +15,27 @@ class MovieAdapter
 constructor(
 ): ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()) {
 
+    private lateinit var listener : OnItemClickListener<Movie>
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), listener)
+    }
+
+    fun setOnItemClick(listener : OnItemClickListener<Movie>) {
+        this.listener = listener
     }
 
     class MovieViewHolder(private val binding: MovieListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(movie: Movie) {
+        fun onBind(movie: Movie, listener : OnItemClickListener<Movie>) {
             with(binding) {
                 this.movie = movie
+                this.listener = listener
                 executePendingBindings()
             }
         }

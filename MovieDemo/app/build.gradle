@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -18,6 +19,10 @@ android {
         buildConfigField("String", "API_KEY", API_KEY)
 
         testInstrumentationRunner "com.busra.moviedemo.HiltTestRunner"
+    }
+
+    dataBinding {
+        enabled true
     }
 
     flavorDimensions "version"
@@ -59,14 +64,25 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.github.bumptech.glide:compiler:$glideVersion"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
     // View Model
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
     implementation "androidx.fragment:fragment-ktx:1.2.5"
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
+    // Hilt
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltOtherVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltOtherVersion"
 
