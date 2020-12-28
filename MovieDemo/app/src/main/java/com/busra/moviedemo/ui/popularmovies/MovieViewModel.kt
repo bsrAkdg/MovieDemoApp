@@ -22,9 +22,10 @@ constructor(
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie
 
-    fun getAllMovies(page: Int) {
+    // FIXME: 12/28/20 pagination
+    fun getAllMovies() {
         viewModelScope.launch {
-            getMoviesUseCase.getAllMovies(page).collect { resourceListMovie ->
+            getMoviesUseCase.getAllMovies(1).collect { resourceListMovie ->
                 when (resourceListMovie.status) {
                     is Status.SUCCESS -> {
                         _movies.value = resourceListMovie.data

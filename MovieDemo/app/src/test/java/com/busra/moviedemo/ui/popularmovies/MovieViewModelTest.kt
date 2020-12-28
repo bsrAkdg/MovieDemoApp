@@ -49,7 +49,7 @@ class MovieViewModelTest {
 
         `when`(getMoviesUseCase.getAllMovies(1)).thenReturn(flow)
 
-        movieViewModel.getAllMovies(1)
+        movieViewModel.getAllMovies()
 
         val result = movieViewModel.mainStateView.getOrAwaitValueTest()
         assertThat(result.getContentIfNotHandled()?.isLoading).isTrue()
@@ -64,7 +64,7 @@ class MovieViewModelTest {
 
         `when`(getMoviesUseCase.getAllMovies(1)).thenReturn(flow)
 
-        movieViewModel.getAllMovies(1)
+        movieViewModel.getAllMovies()
 
         val result = movieViewModel.mainStateView.getOrAwaitValueTest()
         assertThat(result.getContentIfNotHandled()?.isError).isTrue()
@@ -80,7 +80,7 @@ class MovieViewModelTest {
 
         `when`(getMoviesUseCase.getAllMovies(1)).thenReturn(flow)
 
-        movieViewModel.getAllMovies(1)
+        movieViewModel.getAllMovies()
 
         val result = movieViewModel.movies.getOrAwaitValueTest()
         assertThat(result).isEqualTo(data)

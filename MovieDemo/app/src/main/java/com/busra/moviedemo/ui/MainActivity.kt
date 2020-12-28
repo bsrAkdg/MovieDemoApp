@@ -9,8 +9,10 @@ import com.busra.moviedemo.ui.popularmovies.MovieViewModel
 import com.busra.moviedemo.util.ErrorType
 import com.busra.moviedemo.util.ErrorType.*
 import com.busra.moviedemo.util.UiStatus
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
+@AndroidEntryPoint
 @InternalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
