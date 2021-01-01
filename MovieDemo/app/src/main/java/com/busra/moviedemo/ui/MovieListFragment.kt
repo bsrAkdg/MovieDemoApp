@@ -10,6 +10,7 @@ import com.busra.moviedemo.R
 import com.busra.moviedemo.data.Movie
 import com.busra.moviedemo.databinding.FragmentMovieListBinding
 import com.busra.moviedemo.ui.popularmovies.MovieViewModel
+import com.busra.moviedemo.util.SpaceItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -25,10 +26,19 @@ class MovieListFragment constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentMovieListBinding.bind(view).apply {
             movieAdapter.setOnItemClick(this@MovieListFragment)
-            recyclerView.adapter = movieAdapter
+            recyclerView.apply {
+                adapter = movieAdapter
+                addItemDecoration(
+                    SpaceItemDecoration(
+                        resources.getDimension(R.dimen.space_16).toInt()
+                    )
+                )
+            }
         }
+
         subscribeObserver()
         viewModel.getAllMovies()
     }

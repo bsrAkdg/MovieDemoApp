@@ -11,12 +11,9 @@ import com.busra.moviedemo.R
 import com.busra.moviedemo.databinding.ActivityMainBinding
 import com.busra.moviedemo.ui.popularmovies.MovieViewModel
 import com.busra.moviedemo.util.*
-import com.busra.moviedemo.util.ErrorType.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
 
 @AndroidEntryPoint
-@InternalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MovieViewModel by viewModels()
