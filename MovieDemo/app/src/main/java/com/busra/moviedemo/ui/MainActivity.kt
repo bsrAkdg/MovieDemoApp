@@ -2,13 +2,16 @@ package com.busra.moviedemo.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.navigation.findNavController
 import com.busra.moviedemo.R
+import com.busra.moviedemo.databinding.ActivityMainBinding
 import com.busra.moviedemo.ui.popularmovies.MovieViewModel
-import com.busra.moviedemo.util.ErrorType
+import com.busra.moviedemo.util.*
 import com.busra.moviedemo.util.ErrorType.*
-import com.busra.moviedemo.util.UiStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -17,29 +20,35 @@ import kotlinx.coroutines.InternalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MovieViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         subscribeObserver()
     }
 
     private fun subscribeObserver() {
-        viewModel.mainStateView.observe(this, {
-            it?.getContentIfNotHandled()?.let { mainViewState ->
-                if (mainViewState.uiStatus is ErrorType) {
-                    when (val errorType = (mainViewState.uiStatus as UiStatus.Error).errorType) {
-                        is DIALOG -> {
-                            // show dialog
-                        }
-                        is TOAST -> {
-                            // show toast
-                        }
-                        else -> {
-
-                        }
-                    }
+        viewModel.isErrorDialog.observe(this, { it ->
+            it?.getContentIfNotHandled()?.let { msg ->
+                if (msg.isNotEmpty()) {
+                    showWarningDialog(msg)
                 }
+            }
+        })
+
+        viewModel.isErrorToast.observe(this, {
+            it?.getContentIfNotHandled()?.let { msg ->
+                if (msg.isNotEmpty()) {
+                    showToast(msg)
+                }
+            }
+        })
+
+        viewModel.isLoading.observe(this, {
+            it?.getContentIfNotHandled()?.let { isLoading ->
+                binding.progressBar.isVisible = isLoading
             }
         })
     }

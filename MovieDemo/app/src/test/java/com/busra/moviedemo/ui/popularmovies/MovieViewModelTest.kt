@@ -51,8 +51,8 @@ class MovieViewModelTest {
 
         movieViewModel.getAllMovies()
 
-        val result = movieViewModel.mainStateView.getOrAwaitValueTest()
-        assertThat(result.getContentIfNotHandled()?.isLoading).isTrue()
+        val result = movieViewModel.isLoading.getOrAwaitValueTest()
+        assertThat(result.getContentIfNotHandled()).isTrue()
     }
 
     @Test
@@ -66,8 +66,8 @@ class MovieViewModelTest {
 
         movieViewModel.getAllMovies()
 
-        val result = movieViewModel.mainStateView.getOrAwaitValueTest()
-        assertThat(result.getContentIfNotHandled()?.isError).isTrue()
+        val result = movieViewModel.isErrorToast.getOrAwaitValueTest()
+        assertThat(result.getContentIfNotHandled()).isEqualTo("Not found")
     }
 
     @Test
@@ -96,8 +96,8 @@ class MovieViewModelTest {
 
         movieViewModel.getAllMovieDetail(1)
 
-        val result = movieViewModel.mainStateView.getOrAwaitValueTest()
-        assertThat(result.getContentIfNotHandled()?.isLoading).isTrue()
+        val result = movieViewModel.isLoading.getOrAwaitValueTest()
+        assertThat(result.getContentIfNotHandled()).isTrue()
     }
 
     @Test
@@ -110,8 +110,8 @@ class MovieViewModelTest {
 
         movieViewModel.getAllMovieDetail(1)
 
-        val result = movieViewModel.mainStateView.getOrAwaitValueTest()
-        assertThat(result.getContentIfNotHandled()?.isError).isTrue()
+        val result = movieViewModel.isErrorToast.getOrAwaitValueTest()
+        assertThat(result.getContentIfNotHandled()).isEqualTo("Not found")
     }
 
     @Test

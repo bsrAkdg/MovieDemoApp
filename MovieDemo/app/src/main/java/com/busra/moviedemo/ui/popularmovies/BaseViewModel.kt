@@ -3,35 +3,54 @@ package com.busra.moviedemo.ui.popularmovies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.busra.moviedemo.ui.MainViewState
 import com.busra.moviedemo.util.*
 
 open class BaseViewModel : ViewModel() {
 
-    private val _mainStateView = MutableLiveData<Event<MainViewState>>()
-    val mainStateView: LiveData<Event<MainViewState>> = _mainStateView
+    private val _isErrorDialog = MutableLiveData<Event<String>>()
+    val isErrorDialog: LiveData<Event<String>> = _isErrorDialog
 
-    private fun setMainStateView(mainViewState: MainViewState) {
-        _mainStateView.value = Event(mainViewState)
-    }
+    private val _isErrorToast = MutableLiveData<Event<String>>()
+    val isErrorToast: LiveData<Event<String>> = _isErrorToast
 
-    fun <T> handleErrorLoadingResource(
+    private val _isLoading = MutableLiveData<Event<Boolean>>()
+    val isLoading: LiveData<Event<Boolean>> = _isLoading
+
+    fun <T> handleResource(
         resource: Resource<T>,
         errorType: ErrorType = ErrorType.TOAST(resource.message)
     ) {
-        if (resource.status is Status.ERROR) {
-            setMainStateView(
-                MainViewState(
-                    uiStatus = UiStatus.Error(errorType)
-                )
-            )
+        when (resource.status) {
+            is Status.ERROR -> {
+                if (errorType is ErrorType.TOAST) {
+                    setErrorToast(resource.message)
+                } else if (errorType is ErrorType.DIALOG) {
+                    setErrorDialog(resource.message)
+                }
+                setLoading(false)
+            }
+            is Status.LOADING -> {
+                setLoading(true)
+                setErrorToast("")
+                setErrorDialog("")
+            }
+            is Status.SUCCESS -> {
+                setLoading(false)
+                setErrorToast("")
+                setErrorDialog("")
+            }
         }
-        else if (resource.status is Status.LOADING) {
-            setMainStateView(
-                MainViewState(
-                    uiStatus = UiStatus.Loading
-                )
-            )
-        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        _isLoading.value = Event(isLoading)
+    }
+
+    private fun setErrorDialog(msg: String) {
+        _isErrorDialog.value = Event(msg)
+    }
+
+    private fun setErrorToast(msg: String) {
+        _isErrorToast.value = Event(msg)
     }
 }

@@ -26,13 +26,9 @@ constructor(
     fun getAllMovies() {
         viewModelScope.launch {
             getMoviesUseCase.getAllMovies(1).collect { resourceListMovie ->
-                when (resourceListMovie.status) {
-                    is Status.SUCCESS -> {
-                        _movies.value = resourceListMovie.data
-                    }
-                    else -> {
-                        handleErrorLoadingResource(resourceListMovie)
-                    }
+                handleResource(resourceListMovie)
+                if (resourceListMovie.status == Status.SUCCESS) {
+                    _movies.value = resourceListMovie.data
                 }
             }
         }
@@ -41,13 +37,9 @@ constructor(
     fun getAllMovieDetail(id: Int) {
         viewModelScope.launch {
             getMovieDetailUseCase.getAllMovieDetail(id).collect { resourceMovie ->
-                when (resourceMovie.status) {
-                    is Status.SUCCESS -> {
-                        _movie.value = resourceMovie.data
-                    }
-                    else -> {
-                        handleErrorLoadingResource(resourceMovie)
-                    }
+                handleResource(resourceMovie)
+                if (resourceMovie.status == Status.SUCCESS) {
+                    _movie.value = resourceMovie.data
                 }
             }
         }
