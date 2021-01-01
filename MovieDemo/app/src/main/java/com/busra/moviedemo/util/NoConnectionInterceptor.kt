@@ -5,6 +5,8 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import okhttp3.Protocol
+import okhttp3.ResponseBody.Companion.toResponseBody
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -15,9 +17,22 @@ import javax.inject.Singleton
 class NoConnectionInterceptor @Inject constructor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         return if (!isConnectionOn()) {
-            throw NoConnectivityException()
+            return Response.Builder()
+                       .request(chain.request())
+                       .protocol(Protocol.HTTP_1_1)
+                       .code(400)
+                       .message("client config invalid")
+                       .body("client config invalid".toResponseBody(null))
+                       .build()
         } else if(!isInternetAvailable()) {
-            throw NoInternetException()
+            //throw NoInternetException()
+            return Response.Builder()
+                .request(chain.request())
+                .protocol(Protocol.HTTP_1_1)
+                .code(400)
+                .message("client config invalid 2")
+                .body("client config invalid 2".toResponseBody(null))
+                .build()
         } else {
             chain.proceed(chain.request())
         }
