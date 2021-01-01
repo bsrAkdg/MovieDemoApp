@@ -51,12 +51,14 @@ constructor(
 
     override fun getAllMoviesDb(page: Int) = flow {
         localDataSource.getAllMovies(page).collect { cacheMovies ->
-            cacheMovies?.let { cacheList ->
-                val movies = cacheList.map { cacheMovie ->
+            if(!cacheMovies.isNullOrEmpty()) {
+                val movies = cacheMovies.map { cacheMovie ->
                     cacheMapper.mapFromEntity(cacheMovie)
                 }
                 emit(Resource.success(movies))
-            } ?: emit(Resource.error(Constant.MOVIES_NOT_FOUND, null))
+            } else {
+                emit(Resource.error(Constant.MOVIES_NOT_FOUND, null))
+            }
         }
     }
 
