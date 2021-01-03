@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.busra.moviedemo.R
 import com.busra.moviedemo.data.Movie
@@ -18,14 +18,16 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class MovieListFragment constructor(
-    val movieAdapter : MovieAdapter
+    val movieAdapter : MovieAdapter,
+    var viewModel: MovieViewModel? = null
 ) : Fragment(R.layout.fragment_movie_list), OnItemClickListener<Movie> {
 
     private lateinit var binding: FragmentMovieListBinding
-    private val viewModel: MovieViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
 
         binding = FragmentMovieListBinding.bind(view).apply {
             movieAdapter.setOnItemClick(this@MovieListFragment)
@@ -40,11 +42,11 @@ class MovieListFragment constructor(
         }
 
         subscribeObserver()
-        viewModel.getAllMovies()
+        viewModel?.getAllMovies()
     }
 
     private fun subscribeObserver() {
-        viewModel.movies.observe(viewLifecycleOwner, { movieList ->
+        viewModel?.movies?.observe(viewLifecycleOwner, { movieList ->
             movieAdapter.submitList(movieList)
         })
     }

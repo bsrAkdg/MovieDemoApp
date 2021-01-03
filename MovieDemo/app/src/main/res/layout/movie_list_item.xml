@@ -43,7 +43,7 @@
             <TextView
                 android:text="@{movie.title}"
                 android:id="@+id/title"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_10"
@@ -55,7 +55,7 @@
             <TextView
                 android:text="@{String.valueOf(movie.vote_average)}"
                 android:id="@+id/star"
-                style="@style/TextAppearance.MaterialComponents.Headline7"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

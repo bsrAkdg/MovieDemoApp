@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class CustomFragmentFactory
 @Inject constructor(
-    val movieAdapter: MovieAdapter
+    private val movieAdapter: MovieAdapter
 ) : FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {

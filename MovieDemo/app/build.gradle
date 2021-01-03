@@ -70,7 +70,7 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
@@ -110,12 +110,14 @@ dependencies {
     // Instrumented test
     androidTestImplementation "junit:junit:4.13.1"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
     androidTestImplementation "com.google.truth:truth:1.0.1"
     androidTestImplementation "com.google.dagger:hilt-android-testing:2.30.1-alpha"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.30.1-alpha"
 
 
