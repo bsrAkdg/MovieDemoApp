@@ -8,6 +8,8 @@ buildscript {
     ext.navigationVersion = "2.3.2"
     ext.glideVersion = "4.11.0"
     ext.navVersion = "2.3.2"
+    ext.fragmentVersion = "1.2.5"
+    ext.androidXTestCoreVersion = "1.3.0"
 
     repositories {
         google()
